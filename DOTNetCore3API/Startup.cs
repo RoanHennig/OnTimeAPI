@@ -13,6 +13,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using DOTNETCore3.Data;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using DOTNetCore3API.ViewModels.Mapping;
 
 namespace DOTNetCore3API
 {
@@ -29,6 +33,19 @@ namespace DOTNetCore3API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+
+            services
+                .AddEntityFrameworkMySql()
+                .AddDbContext<BusinessPortalContext>(options =>
+                    options.UseMySql(
+                        Configuration.GetConnectionString("BusinessPortalContext"),
+                        o => o.MigrationsAssembly("DOTNetCore3API")
+                    )
+                );
+
+            var mappingConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile()));
+            services.AddSingleton(mappingConfig.CreateMapper());
+
             services.AddControllers();
 
             string domain = $"https://{Configuration["Auth0:Domain"]}/";
