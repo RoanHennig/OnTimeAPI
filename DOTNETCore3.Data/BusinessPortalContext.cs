@@ -24,60 +24,66 @@ namespace DOTNETCore3.Data
         void ConfigureModelBuilderForUser(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("User");
-            modelBuilder.Entity<User>()
-                .Property(user => user.FirstName)
-                .HasMaxLength(60)
-                .IsRequired();
-
-            modelBuilder.Entity<User>()
-                .Property(user => user.LastName)
-                .HasMaxLength(60)
-                .IsRequired();
-
-            modelBuilder.Entity<User>()
-                .Property(user => user.Email)
-                .HasMaxLength(60)
-                .IsRequired();
-
-            modelBuilder.Entity<User>()
-                .Property(user => user.Password)
-                .IsRequired();
         }
 
         void ConfigureModelBuilderForBusiness(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Business>().ToTable("Business");
-            modelBuilder.Entity<Business>()
-                .Property(s => s.BusinessName)
-                .HasMaxLength(100)
-                .IsRequired();
-
-            modelBuilder.Entity<Business>()
-                .HasOne(s => s.BusinessOwner);
-
-            modelBuilder.Entity<Business>()
-                    .HasMany(s => s.Staff);
-
-            modelBuilder.Entity<Business>()
-                .HasMany(s => s.OperatingHours);
         }
 
         void ConfigureModelBuilderForBusinessOperatingHours(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Business>().ToTable("Business");
-            modelBuilder.Entity<Business>()
-                .Property(s => s.BusinessName)
-                .HasMaxLength(100)
-                .IsRequired();
+            modelBuilder.Entity<BusinessOperatingHours>().ToTable("BusinessOperatingHours");
 
-            modelBuilder.Entity<Business>()
-                .HasOne(s => s.BusinessOwner);
+            modelBuilder.Entity<BusinessOperatingHours>()
+                .HasOne(s => s.Business)
+                .WithMany(u => u.OperatingHours)
+                .HasForeignKey(s => s.BusinessId);
+        }
 
-            modelBuilder.Entity<Business>()
-                    .HasMany(s => s.Staff);
+        void ConfigureModelBuilderForBusinessOwner(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BusinessOwner>().ToTable("BusinessOwner");
 
-            modelBuilder.Entity<Business>()
-                .HasMany(s => s.OperatingHours);
+            modelBuilder.Entity<BusinessOwner>()
+                .HasOne(s => s.Business)
+                .WithOne(u => u.BusinessOwner)
+                .HasForeignKey("BusinessId");
+        }
+
+        void ConfigureModelBuilderForBusinessCategory(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BusinessCategory>().ToTable("BusinessCategory");
+
+            modelBuilder.Entity<BusinessCategory>()
+                .HasOne(s => s.Business)
+                .WithOne(u => u.BusinessCategory)
+                .HasForeignKey("BusinessId");
+
+            modelBuilder.Entity<BusinessCategory>()
+                .HasOne(s => s.BusinessType)
+                .WithOne(u => u.BusinessCategory)
+                .HasForeignKey("BusinessTypeId");
+        }
+
+        void ConfigureModelBuilderForBusinessType(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BusinessType>().ToTable("BusinessType");
+        }
+
+        void ConfigureModelBuilderForStaff(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Staff>().ToTable("Staff");
+
+            modelBuilder.Entity<Staff>()
+                .HasOne(s => s.Business)
+                .WithMany(u => u.Staff)
+                .HasForeignKey(s => s.BusinessId);
+
+            //modelBuilder.Entity<Staff>()
+            //    .HasOne(s => s.User)
+            //    .WithOne(u => u.)
+            //    .HasForeignKey("UserId");
         }
     }
 }

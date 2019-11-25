@@ -6,14 +6,16 @@ using System.Text;
 
 namespace DOTNETCore3.Model.Entities
 {
-    public class BusinessOwner : IEntityBase
+    public class BusinessCategory : IEntityBase
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
         public int Id { get; set; }
-        public Business Business { get; set; }
         public int BusinessId { get; set; }
-        public User User { get; set; }
-        public int UserId { get; set; }
+        public Business Business { get; set; }
+        public int StaffSize { get; set; }
+        public int BusinessSize { get; set; }
+        public int BusinessTypeId { get; set; }
+        public BusinessType BusinessType { get; set; }
     }
 }
