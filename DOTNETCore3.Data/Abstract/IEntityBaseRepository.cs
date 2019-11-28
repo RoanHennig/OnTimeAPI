@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace DOTNETCore3.Data
+namespace DOTNETCore3.Data.Abstract
 {
     public interface IEntityBaseRepository<T> where T : class
     {
