@@ -19,5 +19,7 @@ namespace DOTNETCore3.Model.Entities
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
+        [Required]
+        public string Auth0UserId { get; set; }
     }
 }

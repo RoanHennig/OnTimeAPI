@@ -15,16 +15,18 @@ namespace DOTNetCore3API.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         public BusinessSetupController(IBusinessRepository businessRepository,
-                                        IUserRepository userRepository)
+                                       IUserRepository userRepository,
+                                       IMapper mapper)
         {
             _businessRepository = businessRepository;
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         [HttpPost("save")]
         public ActionResult<BusinessSetupStepsViewModel> SaveSteps([FromBody]BusinessSetupStepsViewModel model)
         {
-            var business = _businessRepository.GetSingle(x => x.BusinessOwner.User.Email == HttpContext.User.Identity.Name);
+            var business = _businessRepository.GetSingle(x => x.Id == model.UserId);
 
             _mapper.Map(model.Step1, business);
 

@@ -1,4 +1,5 @@
-﻿using DOTNETCore3.Model.Entities;
+﻿using DOTNETCore3.Data.Abstract;
+using DOTNETCore3.Model.Entities;
 
 namespace DOTNETCore3.Data.Repositories
 {

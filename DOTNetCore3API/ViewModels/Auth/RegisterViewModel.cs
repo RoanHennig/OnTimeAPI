@@ -23,5 +23,8 @@ namespace DOTNetCore3API.ViewModels.Auth
         [Required]
         [StringLength(50)]
         public string LastName { get; set; }
+
+        [Required]
+        public string Auth0UserId { get; set; }
     }
 }

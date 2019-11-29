@@ -3,8 +3,7 @@ namespace DOTNetCore3API.ViewModels.Auth
 {
     public class AuthData
     {
-        public string Token { get; set; }
-        public long TokenExpirationTime { get; set; }
-        public string Id { get; set; }
+        public int BusinessId { get; set; }
+        public int UserId { get; set; }
     }
 }

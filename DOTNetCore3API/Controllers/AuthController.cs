@@ -15,10 +15,15 @@ namespace DOTNetCore3API.Controllers
     public class AuthController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly IBusinessRepository _businessRepository;
         private readonly IMapper _mapper;
-        public AuthController(IUserRepository userRepository)
+        public AuthController(IUserRepository userRepository,
+                              IBusinessRepository businessRepository,
+                              IMapper mapper)
         {
             _userRepository = userRepository;
+            _businessRepository = businessRepository;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
@@ -26,8 +31,8 @@ namespace DOTNetCore3API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var emailUniq = _userRepository.IsEmailUnique(model.Email);
-            if (!emailUniq) return BadRequest(new { email = "user with this email already exists" });
+            var emailUnique = _userRepository.IsEmailUnique(model.Email);
+            if (!emailUnique) return BadRequest(new { email = "user with this email already exists" });
 
             var user = _mapper.Map<User>(model);
             var business = _mapper.Map<Business>(model);
@@ -36,18 +41,17 @@ namespace DOTNetCore3API.Controllers
                 User = user
             };
 
-            var id = Guid.NewGuid().ToString();
-            var user = new User
-            {
-                Id = id,
-                Username = model.Username,
-                Email = model.Email,
-                Password = authService.HashPassword(model.Password)
-            };
-            userRepository.Add(user);
-            userRepository.Commit();
+            _userRepository.Add(user);
+            _userRepository.Commit();
 
-            return authService.GetAuthData(id);
+            _businessRepository.Add(business);
+            _businessRepository.Commit();
+
+            return new AuthData()
+            {
+                BusinessId = business.Id,
+                UserId = user.Id
+            };
         }
     }
 }
