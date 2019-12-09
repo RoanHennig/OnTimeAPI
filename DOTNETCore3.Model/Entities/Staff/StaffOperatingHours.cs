@@ -11,7 +11,8 @@ namespace DOTNETCore3.Model.Entities
             StaffShifts = new List<StaffShift>();
         }
         public int Id { get; set; }
-        public int BusinessOperatingHoursId { get; set; }       
+        public int BusinessOperatingHoursId { get; set; }
+        public BusinessOperatingHours BusinessOperatingHours { get; set; }
         public int StaffId { get; set; }
         public Staff Staff { get; set; }
         public int DayOfTheWeek { get; set; }

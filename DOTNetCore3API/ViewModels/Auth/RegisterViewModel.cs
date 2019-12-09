@@ -8,9 +8,9 @@ namespace DOTNetCore3API.ViewModels.Auth
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(60, MinimumLength = 8)]
-        public string Password { get; set; }
+        //[Required]
+        //[StringLength(60, MinimumLength = 8)]
+        //public string Password { get; set; }
 
         [Required]
         [StringLength(80)]

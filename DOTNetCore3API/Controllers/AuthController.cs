@@ -2,15 +2,13 @@
 using DOTNETCore3.Data.Abstract;
 using DOTNETCore3.Model.Entities;
 using DOTNetCore3API.ViewModels.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DOTNetCore3API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
@@ -31,21 +29,23 @@ namespace DOTNetCore3API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var emailUnique = _userRepository.IsEmailUnique(model.Email);
-            if (!emailUnique) return BadRequest(new { email = "user with this email already exists" });
-
             var user = _mapper.Map<User>(model);
             var business = _mapper.Map<Business>(model);
-            business.BusinessOwner = new BusinessOwner()
+
+            var emailUnique = _userRepository.IsEmailUnique(model.Email);
+            if (!emailUnique)
             {
-                User = user
-            };
+                business.BusinessOwner = new BusinessOwner()
+                {
+                    User = user
+                };
 
-            _userRepository.Add(user);
-            _userRepository.Commit();
+                _userRepository.Add(user);
+                _userRepository.Commit();
 
-            _businessRepository.Add(business);
-            _businessRepository.Commit();
+                _businessRepository.Add(business);
+                _businessRepository.Commit();
+            }
 
             return new AuthData()
             {

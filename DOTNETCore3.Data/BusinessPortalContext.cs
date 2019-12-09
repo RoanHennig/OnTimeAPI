@@ -18,6 +18,15 @@ namespace DOTNETCore3.Data
             }
 
             ConfigureModelBuilderForUser(modelBuilder);
+            ConfigureModelBuilderForBusiness(modelBuilder);
+            ConfigureModelBuilderForBusinessOperatingHours(modelBuilder);
+            ConfigureModelBuilderForBusinessOwner(modelBuilder);
+            ConfigureModelBuilderForBusinessCategory(modelBuilder);
+            ConfigureModelBuilderForBusinessType(modelBuilder);
+            ConfigureModelBuilderForStaff(modelBuilder);
+            ConfigureModelBuilderForStaffOperatingHours(modelBuilder);
+            ConfigureModelBuilderForStaffShift(modelBuilder);
+
 
         }
 
@@ -48,7 +57,12 @@ namespace DOTNETCore3.Data
             modelBuilder.Entity<BusinessOwner>()
                 .HasOne(s => s.Business)
                 .WithOne(u => u.BusinessOwner)
-                .HasForeignKey("BusinessId");
+                .HasForeignKey("BusinessOwner");
+
+            modelBuilder.Entity<BusinessOwner>()
+                .HasOne(s => s.User)
+                .WithOne(u => u.BusinessOwner)
+                .HasForeignKey("BusinessOwner");
         }
 
         void ConfigureModelBuilderForBusinessCategory(ModelBuilder modelBuilder)
@@ -57,13 +71,13 @@ namespace DOTNETCore3.Data
 
             modelBuilder.Entity<BusinessCategory>()
                 .HasOne(s => s.Business)
-                .WithOne(u => u.BusinessCategory)
-                .HasForeignKey("BusinessId");
+                .WithOne(u => u.BusinessCategory)     
+                .HasForeignKey("BusinessCategory");
 
             modelBuilder.Entity<BusinessCategory>()
                 .HasOne(s => s.BusinessType)
                 .WithOne(u => u.BusinessCategory)
-                .HasForeignKey("BusinessTypeId");
+                .HasForeignKey("BusinessCategory");
         }
 
         void ConfigureModelBuilderForBusinessType(ModelBuilder modelBuilder)
@@ -80,10 +94,40 @@ namespace DOTNETCore3.Data
                 .WithMany(u => u.Staff)
                 .HasForeignKey(s => s.BusinessId);
 
-            //modelBuilder.Entity<Staff>()
-            //    .HasOne(s => s.User)
-            //    .WithOne(u => u.)
-            //    .HasForeignKey("UserId");
+            modelBuilder.Entity<Staff>()
+                .HasOne(s => s.User)
+                .WithOne(u => u.Staff)
+                .HasForeignKey("Staff");
+        }
+
+        void ConfigureModelBuilderForStaffOperatingHours(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StaffOperatingHours>().ToTable("StaffOperatingHours");
+
+            modelBuilder.Entity<StaffOperatingHours>()
+                .HasOne(s => s.BusinessOperatingHours)
+                .WithMany(u => u.StaffOperatingHours)
+                .HasForeignKey(s => s.BusinessOperatingHoursId);
+
+            modelBuilder.Entity<StaffOperatingHours>()
+                .HasOne(s => s.Staff)
+                .WithMany(u => u.StaffOperatingHours)
+                .HasForeignKey(s => s.StaffId);
+        }
+
+        void ConfigureModelBuilderForStaffShift(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StaffShift>().ToTable("StaffShift");
+
+            modelBuilder.Entity<StaffShift>()
+                .HasOne(s => s.StaffOperatingHours)
+                .WithMany(u => u.StaffShifts)
+                .HasForeignKey(s => s.StaffOperatingHoursId);
+
+            modelBuilder.Entity<StaffShift>()
+                .HasOne(s => s.Staff)
+                .WithMany(u => u.StaffShifts)
+                .HasForeignKey(s => s.StaffId);
         }
     }
 }

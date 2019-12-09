@@ -17,6 +17,8 @@ using DOTNETCore3.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using DOTNetCore3API.ViewModels.Mapping;
+using DOTNETCore3.Data.Abstract;
+using DOTNETCore3.Data.Repositories;
 
 namespace DOTNetCore3API
 {
@@ -45,6 +47,8 @@ namespace DOTNetCore3API
 
             var mappingConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile()));
             services.AddSingleton(mappingConfig.CreateMapper());
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IBusinessRepository, BusinessRepository>();
 
             services.AddControllers();
 

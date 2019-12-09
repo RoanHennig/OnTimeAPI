@@ -18,8 +18,10 @@ namespace DOTNETCore3.Model.Entities
         [MaxLength(60)]
         public string Email { get; set; }
         [Required]
-        public string Password { get; set; }
-        [Required]
         public string Auth0UserId { get; set; }
+
+        public Staff Staff { get; set; }
+        public BusinessOwner BusinessOwner { get; set; }
+
     }
 }

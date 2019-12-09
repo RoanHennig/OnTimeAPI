@@ -14,6 +14,6 @@ namespace DOTNetCore3API.ViewModels.BusinessSetup
         public string Address { get; set; }
         public string City { get; set; }
         public string Province { get; set; }
-        public string Zipcode { get; set; }
+        public int Zipcode { get; set; }
     }
 }

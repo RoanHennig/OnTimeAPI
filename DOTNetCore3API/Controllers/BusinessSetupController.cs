@@ -26,9 +26,10 @@ namespace DOTNetCore3API.Controllers
         [HttpPost("save")]
         public ActionResult<BusinessSetupStepsViewModel> SaveSteps([FromBody]BusinessSetupStepsViewModel model)
         {
-            var business = _businessRepository.GetSingle(x => x.Id == model.UserId);
+            var business = _businessRepository.GetSingle(x => x.BusinessOwner.User.Auth0UserId== model.Auth0Id, x=> x.BusinessOwner, x=> x.BusinessOwner.User);
 
             _mapper.Map(model.Step1, business);
+
 
             _businessRepository.Commit();
 
