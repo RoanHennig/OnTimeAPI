@@ -33,7 +33,7 @@ namespace DOTNetCore3API.Controllers
             var business = _mapper.Map<Business>(model);
 
             var emailUnique = _userRepository.IsEmailUnique(model.Email);
-            if (!emailUnique)
+            if (emailUnique)
             {
                 business.BusinessOwner = new BusinessOwner()
                 {
@@ -45,6 +45,11 @@ namespace DOTNetCore3API.Controllers
 
                 _businessRepository.Add(business);
                 _businessRepository.Commit();
+            }
+            else
+            {
+                business = _businessRepository.GetSingle(x => x.BusinessOwner.User.Auth0UserId == model.Auth0UserId, x => x.BusinessOwner, x => x.BusinessOwner.User);
+                user = business.BusinessOwner.User;
             }
 
             return new AuthData()
