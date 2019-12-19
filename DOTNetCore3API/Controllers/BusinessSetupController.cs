@@ -26,9 +26,10 @@ namespace DOTNetCore3API.Controllers
         [HttpPost("save")]
         public ActionResult<BusinessSetupStepsViewModel> SaveSteps([FromBody]BusinessSetupStepsViewModel model)
         {
-            var business = _businessRepository.GetSingle(x => x.BusinessOwner.User.Auth0UserId == model.Auth0Id, x=> x.BusinessOwner, x=> x.BusinessOwner.User);
+            var business = _businessRepository.GetSingle(x => x.BusinessOwner.User.Auth0UserId == model.Auth0Id, x=> x.BusinessOwner, x=> x.BusinessOwner.User, x=> x.BusinessCategory);
 
             _mapper.Map(model.Step1, business);
+            _mapper.Map(model.Step2, business);
 
             _businessRepository.Commit();
 
@@ -38,11 +39,16 @@ namespace DOTNetCore3API.Controllers
         [HttpGet("get")]
         public ActionResult<BusinessSetupStepsViewModel> GetSteps(int businessId)
         {
-            var model = new BusinessSetupStepsViewModel();
-            model.Step1 = new Step1ViewModel();
-            var business = _businessRepository.GetSingle(x => x.Id == businessId, x => x.BusinessOwner.User);
+            var model = new BusinessSetupStepsViewModel()
+            {
+                Step1 = new Step1ViewModel(),
+                Step2 = new Step2ViewModel()
+            };
+
+            var business = _businessRepository.GetSingle(x => x.Id == businessId, x => x.BusinessOwner.User, x=> x.BusinessCategory);
 
             _mapper.Map(business, model.Step1);
+            _mapper.Map(business, model.Step2);
 
             return model;
         }

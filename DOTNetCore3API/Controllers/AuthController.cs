@@ -33,11 +33,17 @@ namespace DOTNetCore3API.Controllers
             var business = _mapper.Map<Business>(model);
 
             var emailUnique = _userRepository.IsEmailUnique(model.Email);
+
             if (emailUnique)
             {
                 business.BusinessOwner = new BusinessOwner()
                 {
                     User = user
+                };
+
+                business.BusinessCategory = new BusinessCategory()
+                {
+
                 };
 
                 _userRepository.Add(user);
