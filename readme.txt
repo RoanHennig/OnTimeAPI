@@ -1,4 +1,4 @@
-Starting up the project using Visual Studio:
+Starting up the project using Visual Studio:  (Recommended version - VS Community 2019)
 
 1. Open the project
 
