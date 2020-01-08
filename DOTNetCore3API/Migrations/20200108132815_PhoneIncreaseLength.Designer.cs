@@ -3,14 +3,16 @@ using System;
 using DOTNETCore3.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DOTNetCore3API.Migrations
 {
     [DbContext(typeof(BusinessPortalContext))]
-    partial class BusinessPortalContextModelSnapshot : ModelSnapshot
+    [Migration("20200108132815_PhoneIncreaseLength")]
+    partial class PhoneIncreaseLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,8 +48,8 @@ namespace DOTNetCore3API.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("varchar(16) CHARACTER SET utf8mb4")
-                        .HasMaxLength(16);
+                        .HasColumnType("varchar(12) CHARACTER SET utf8mb4")
+                        .HasMaxLength(12);
 
                     b.Property<string>("Province")
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
@@ -254,7 +256,7 @@ namespace DOTNetCore3API.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2020, 1, 8, 15, 30, 56, 69, DateTimeKind.Local).AddTicks(9702));
+                        .HasDefaultValue(new DateTime(2020, 1, 8, 15, 28, 14, 956, DateTimeKind.Local).AddTicks(7640));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -269,7 +271,7 @@ namespace DOTNetCore3API.Migrations
                     b.Property<DateTime>("LastModified")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2020, 1, 8, 15, 30, 56, 73, DateTimeKind.Local).AddTicks(522));
+                        .HasDefaultValue(new DateTime(2020, 1, 8, 15, 28, 14, 959, DateTimeKind.Local).AddTicks(8116));
 
                     b.Property<string>("LastName")
                         .IsRequired()

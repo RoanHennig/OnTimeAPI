@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DOTNETCore3.Model.Entities
@@ -19,7 +20,8 @@ namespace DOTNETCore3.Model.Entities
         public string Email { get; set; }
         [Required]
         public string Auth0UserId { get; set; }
-
+        public DateTime DateCreated { get; set; }
+        public DateTime LastModified { get; set; }
         public Staff Staff { get; set; }
         public BusinessOwner BusinessOwner { get; set; }
 

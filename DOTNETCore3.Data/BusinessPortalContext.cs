@@ -1,5 +1,6 @@
 ﻿using DOTNETCore3.Model.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace DOTNETCore3.Data
@@ -33,6 +34,12 @@ namespace DOTNETCore3.Data
         void ConfigureModelBuilderForUser(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<User>()
+            .Property(b => b.DateCreated)
+            .HasDefaultValue(DateTime.Now);
+            modelBuilder.Entity<User>()
+            .Property(b => b.LastModified)
+            .HasDefaultValue(DateTime.Now);
         }
 
         void ConfigureModelBuilderForBusiness(ModelBuilder modelBuilder)

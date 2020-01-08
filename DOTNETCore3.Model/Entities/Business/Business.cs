@@ -21,7 +21,7 @@ namespace DOTNETCore3.Model.Entities
         [Required]
         [MaxLength(100)]
         public string BusinessName { get; set; }
-        [MaxLength(10)]
+        [MaxLength(16)]
         public string Phone { get; set; }
         [MaxLength(100)]
         public string Address { get; set; }
